@@ -1,7 +1,28 @@
 <div class = "container bg-danger rounded">
-  <br>
-  <p class = "text-white">
-    navbar works!
-  </p>
-  <br>
+  <p class = "text-danger bg-white" *ngIf = "errorMessage">{{errorMessage}}</p>
+  
+  <form>
+    <label>Route ID:</label>
+    <input type = "number" [(ngModel)] = "routeId" name = "routeId" [disabled] = 'isPending'>
+    <button (click) = "getRoute()">Get Route</button>
+    <button (click) = "createRoute()">New Route</button>
+  </form>
+  <form *ngIf = "route">
+    <label>Description:</label>
+    <input type = "text" [(ngModel)] = "route.description" name = "description"  [disabled] = 'isPending'>
+    <br>
+    <label>Expected Start Time:</label>
+    <input type = "datetime-local" [(ngModel)]='route.idealStartTime' name = "idealStartTime" [disabled] = 'isPending'>
+    <br>
+    <label>Node Locations</label>
+    <ul *ngFor = "let node of route.nodes">
+      <li>
+        <input type = "text" [(ngModel)] = 'node.location' name = "{{node.id}} - location" [disabled] = 'isPending'>
+      </li>
+    </ul>
+    <button (click) = "addNode()">Add Node</button>
+    <button (click) = "removeNode()">Remove Node</button>
+    <button (click) = "updateRoute()">Update Route</button>
+    <button (click) = "deleteRoute()">Delete Route</button>
+  </form>
 </div>
