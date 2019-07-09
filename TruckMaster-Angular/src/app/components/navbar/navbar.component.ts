@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PendingService } from 'src/app/services/pending.service';
 import { RouteService } from 'src/app/services/route.service';
 import { Route } from 'src/app/models/Route';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 @Component({
@@ -15,7 +16,7 @@ export class NavbarComponent implements OnInit {
 
   routeId: number;
   route: Route;
-  errorMessage: string;
+  errorCode: number;
 
   constructor(private pendingService: PendingService, private routeService: RouteService) { }
   
@@ -30,35 +31,88 @@ export class NavbarComponent implements OnInit {
 
   getRoute() {
     this.route = null;
-    this.errorMessage = null;
+    this.errorCode = null;
     
     this.routeService.getRoute(this.routeId,
       (route) => {
         this.route = route;
         console.log(route);
       },
-      (error) => {
-        this.errorMessage = error.errorMessage;
+      (error: HttpErrorResponse) => {
+        this.errorCode = error.status;
       });
   }
 
   addNode() {
-    console.log("addNode");
+    this.route.nodes.push({
+      id: 0,
+      location: ""
+    });
   }
 
   removeNode() {
-    console.log("removeNode");
+    this.route.nodes.pop();
   }
   
   updateRoute() {
-    console.log("updateRoute");
+    this.errorCode = null;
+
+    this.routeService.updateRoute(
+      this.route,
+      (route) => {
+        this.route = route;
+      },
+      (error: HttpErrorResponse) => {
+        this.errorCode = error.status;
+      }
+    )
   }
 
   deleteRoute() {
-    console.log("deleteRoute");
+    
+    this.errorCode = null;
+
+    this.routeService.deleteRoute(
+      this.route.id,
+      (route) => {
+        this.routeId = null;
+        this.route = null;
+      },
+      (error: HttpErrorResponse) => {
+        this.errorCode = error.status;
+      }
+    )
   }
 
   createRoute() {
-    console.log("creatRoute");
+
+    this.errorCode = null;
+    this.route = null;
+    this.routeId = null;
+
+    this.routeService.createRoute(
+      {
+        id: 0,
+        description: "",
+        idealStartTime: new Date(),
+        nodes: [
+          {
+            id: 0,
+            location: ""
+          },
+          {
+            id: 0,
+            location: ""
+          }
+        ]
+      },
+      (route) => {
+        this.route = route;
+        this.routeId = route.id;
+      },
+      (error: HttpErrorResponse) => {
+        this.errorCode = error.status;
+      }
+    )
   }
 }
