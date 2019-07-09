@@ -32,7 +32,7 @@ export class RouteService {
         onFailure(error);
       });
   }
-
+  
   updateRoute(route: Route, onSuccess: (route: Route) => void, onFailure: (any) => void) {
 
     this.pendingService.pendingEvent.emit(true);

@@ -1,0 +1,27 @@
+<div class="container bg-danger rounded">
+  <br>
+  <p class = "text-danger bg-white" *ngIf = "errorCode">Error Code: {{errorCode}}</p>
+  <form>
+    <label>User ID:</label>
+    <input type = "number" [(ngModel)] = "userId" name = "userId" [disabled] = "isPending">
+    <button (click) = "getUserProfile()" [disabled] = "isPending">Get User</button>
+  </form>
+  <div *ngIf = "user">
+    <form>
+        <label>Username:</label>
+        <br>
+        <input type = "text" [(ngModel)] = "user.username" name = "username" [disabled] = "isPending">
+        <br>
+        <label>Email:</label>
+        <br>
+        <input type = "email" [(ngModel)] = "user.email" name = "email" [disabled] = "isPending">
+        <br>
+        <label>Phone Number:</label>
+        <br>
+        <input type = "text" [(ngModel)] = "user.phone" name = "phone" [disabled] = "isPending">
+        <br>
+        <button (click) = "updateUserProfile()">Update User</button>
+    </form>
+  </div>
+  <br>
+</div>

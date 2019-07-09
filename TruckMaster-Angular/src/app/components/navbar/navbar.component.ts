@@ -65,7 +65,7 @@ export class NavbarComponent implements OnInit {
       (error: HttpErrorResponse) => {
         this.errorCode = error.status;
       }
-    )
+    );
   }
 
   deleteRoute() {

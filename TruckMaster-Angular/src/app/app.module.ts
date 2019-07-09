@@ -6,11 +6,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HttpClientModule } from '@angular/common/http';
+import { ProfileUserComponent } from './components/profile-user/profile-user.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
+    ProfileUserComponent,
   ],
   imports: [
     BrowserModule,
