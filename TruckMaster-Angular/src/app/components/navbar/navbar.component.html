@@ -1,7 +1,33 @@
 <div class = "container bg-danger rounded">
   <br>
-  <p class = "text-white">
-    navbar works!
-  </p>
+  <p class = "text-danger bg-white" *ngIf = "errorCode">Status Code: {{errorCode}}</p>
+  <form>
+    <label>Route ID:</label>
+    <input type = "number" [(ngModel)] = "routeId" name = "routeId" [disabled] = 'isPending'>
+    <button (click) = "getRoute()" [disabled] = 'isPending'>Get Route</button>
+    <button (click) = "createRoute()" [disabled] = 'isPending'>New Route</button>
+  </form>
+  <div *ngIf = "route">
+    <form>
+      <label>Description:</label>
+      <br>
+      <input type = "text" [(ngModel)] = "route.description" name = "description"  [disabled] = 'isPending'>
+      <br>
+      <label>Expected Start Time: <p class = "text-white">{{route.idealStartTime | date: 'short'}}</p></label>
+      <input type = "datetime-local" [value] = "route.idealStartTime" [(ngModel)]='route.idealStartTime' name = "idealStartTime" [disabled] = 'isPending'>
+      <br>
+      <label>Node Locations</label>
+      <ul *ngFor = "let node of route.nodes">
+        <li>
+          <input type = "text" [(ngModel)] = 'node.location' name = "{{node.id}} - location" [disabled] = 'isPending'>
+        </li>
+      </ul>
+    </form>
+    <br>
+    <button (click) = "updateRoute()" [disabled] = 'isPending'>Update Route</button>
+    <button (click) = "addNode()" [disabled] = 'isPending'>Add Node</button>
+    <button (click) = "removeNode()" [disabled] = 'isPending'>Remove Node</button>
+    <button (click) = "deleteRoute()" [disabled] = 'isPending'>Delete Route</button>
+  </div>
   <br>
 </div>
