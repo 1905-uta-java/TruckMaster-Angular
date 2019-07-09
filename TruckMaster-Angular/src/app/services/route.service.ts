@@ -48,4 +48,24 @@ export class RouteService {
           onFailure(error);
         });
   }
+
+  createRoute(route: Route, onSuccess: (route: Route) => void, onFailure: (any) => void) {
+    
+    this.pendingService.pendingEvent.emit(true);
+    
+    this.http.post<Route>(environment.serverUrl + this.uri,
+      route,
+      {
+        headers: new HttpHeaders().set("Content-Type", "application/json")  
+      })
+      .toPromise()
+        .then((route) => {
+          this.pendingService.pendingEvent.emit(false);
+          onSuccess(route);
+        })
+        .catch((error) => {
+          this.pendingService.pendingEvent.emit(false);
+          onFailure(error);
+        });
+  }
 }

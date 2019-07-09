@@ -38,7 +38,7 @@ export class NavbarComponent implements OnInit {
         console.log(route);
       },
       (error) => {
-        this.errorMessage = JSON.stringify(error);
+        this.errorMessage = error.error;
       });
   }
 
@@ -62,7 +62,7 @@ export class NavbarComponent implements OnInit {
         this.route = route;
       },
       (error) => {
-        this.errorMessage = JSON.stringify(error);
+        this.errorMessage = error.error;
       }
     )
   }
@@ -72,6 +72,34 @@ export class NavbarComponent implements OnInit {
   }
 
   createRoute() {
-    console.log("creatRoute");
+
+    this.errorMessage = null;
+    this.route = null;
+    this.routeId = null;
+
+    this.routeService.createRoute(
+      {
+        id: 0,
+        description: "",
+        idealStartTime: new Date(),
+        nodes: [
+          {
+            id: 0,
+            location: ""
+          },
+          {
+            id: 0,
+            location: ""
+          }
+        ]
+      },
+      (route) => {
+        this.route = route;
+        this.routeId = route.id;
+      },
+      (error) => {
+        this.errorMessage = error.error;
+      }
+    )
   }
 }
