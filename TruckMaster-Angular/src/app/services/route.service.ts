@@ -7,6 +7,10 @@ import { environment } from 'src/environments/environment.prod';
 @Injectable({
   providedIn: 'root'
 })
+// each method of this service class sends a specific kind of http request
+// they each also indicate, through the PendingService, when they are
+// waiting for a response. Each accepts an onSuccess and onFailure callback
+// to handle the response
 export class RouteService {
 
   uri: string = "/routes";
@@ -48,16 +52,32 @@ export class RouteService {
           onFailure(error);
         });
   }
-
+  
   createRoute(route: Route, onSuccess: (route: Route) => void, onFailure: (any) => void) {
     
     this.pendingService.pendingEvent.emit(true);
-    
+
     this.http.post<Route>(environment.serverUrl + this.uri,
       route,
       {
         headers: new HttpHeaders().set("Content-Type", "application/json")  
       })
+      .toPromise()
+        .then((route) => {
+          this.pendingService.pendingEvent.emit(false);
+          onSuccess(route);
+        })
+        .catch((error) => {
+          this.pendingService.pendingEvent.emit(false);
+          onFailure(error);
+        });
+  }
+
+  deleteRoute(routeId: number, onSuccess: (route: Route) => void, onFailure: (any) => void) {
+    
+    this.pendingService.pendingEvent.emit(true);
+
+    this.http.delete<Route>(environment.serverUrl + this.uri + "/" + routeId)
       .toPromise()
         .then((route) => {
           this.pendingService.pendingEvent.emit(false);

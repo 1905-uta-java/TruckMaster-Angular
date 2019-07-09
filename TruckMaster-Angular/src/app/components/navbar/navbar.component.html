@@ -1,6 +1,6 @@
 <div class = "container bg-danger rounded">
-  <p class = "text-danger bg-white" *ngIf = "errorMessage">{{errorMessage}}</p>
   <br>
+  <p class = "text-danger bg-white" *ngIf = "errorCode">Status Code: {{errorCode}}</p>
   <form>
     <label>Route ID:</label>
     <input type = "number" [(ngModel)] = "routeId" name = "routeId" [disabled] = 'isPending'>

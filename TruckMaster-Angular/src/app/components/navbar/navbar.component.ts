@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PendingService } from 'src/app/services/pending.service';
 import { RouteService } from 'src/app/services/route.service';
 import { Route } from 'src/app/models/Route';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 @Component({
@@ -15,7 +16,7 @@ export class NavbarComponent implements OnInit {
 
   routeId: number;
   route: Route;
-  errorMessage: string;
+  errorCode: number;
 
   constructor(private pendingService: PendingService, private routeService: RouteService) { }
   
@@ -30,15 +31,15 @@ export class NavbarComponent implements OnInit {
 
   getRoute() {
     this.route = null;
-    this.errorMessage = null;
+    this.errorCode = null;
     
     this.routeService.getRoute(this.routeId,
       (route) => {
         this.route = route;
         console.log(route);
       },
-      (error) => {
-        this.errorMessage = error.error;
+      (error: HttpErrorResponse) => {
+        this.errorCode = error.status;
       });
   }
 
@@ -54,26 +55,38 @@ export class NavbarComponent implements OnInit {
   }
   
   updateRoute() {
-    this.errorMessage = null;
+    this.errorCode = null;
 
     this.routeService.updateRoute(
       this.route,
       (route) => {
         this.route = route;
       },
-      (error) => {
-        this.errorMessage = error.error;
+      (error: HttpErrorResponse) => {
+        this.errorCode = error.status;
       }
     )
   }
 
   deleteRoute() {
-    console.log("deleteRoute");
+    
+    this.errorCode = null;
+
+    this.routeService.deleteRoute(
+      this.route.id,
+      (route) => {
+        this.routeId = null;
+        this.route = null;
+      },
+      (error: HttpErrorResponse) => {
+        this.errorCode = error.status;
+      }
+    )
   }
 
   createRoute() {
 
-    this.errorMessage = null;
+    this.errorCode = null;
     this.route = null;
     this.routeId = null;
 
@@ -97,8 +110,8 @@ export class NavbarComponent implements OnInit {
         this.route = route;
         this.routeId = route.id;
       },
-      (error) => {
-        this.errorMessage = error.error;
+      (error: HttpErrorResponse) => {
+        this.errorCode = error.status;
       }
     )
   }
