@@ -38,20 +38,33 @@ export class NavbarComponent implements OnInit {
         console.log(route);
       },
       (error) => {
-        this.errorMessage = error.errorMessage;
+        this.errorMessage = JSON.stringify(error);
       });
   }
 
   addNode() {
-    console.log("addNode");
+    this.route.nodes.push({
+      id: 0,
+      location: ""
+    });
   }
 
   removeNode() {
-    console.log("removeNode");
+    this.route.nodes.pop();
   }
   
   updateRoute() {
-    console.log("updateRoute");
+    this.errorMessage = null;
+
+    this.routeService.updateRoute(
+      this.route,
+      (route) => {
+        this.route = route;
+      },
+      (error) => {
+        this.errorMessage = JSON.stringify(error);
+      }
+    )
   }
 
   deleteRoute() {
