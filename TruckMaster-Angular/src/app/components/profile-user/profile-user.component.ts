@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { User } from 'src/app/models/User';
+import { PendingService } from 'src/app/services/pending.service';
+import { UsersService } from 'src/app/services/users.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-profile-user',
@@ -7,21 +11,50 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProfileUserComponent implements OnInit {
 
-  username: string;
-  password: string;
-  email: string;
-  phone: number;
-  firstname: string;
-  lastname: string;
+  isPending: boolean = false;
 
+  userId: number;
+  user: User;
   
-  constructor() { }
+  errorCode: number;
+
+  constructor(private pendingService: PendingService, private userService: UsersService) { }
 
   ngOnInit() {
+
+    this.pendingService.pendingEvent.subscribe((value) => {
+      setTimeout(() => {
+        this.isPending = value;
+      });
+    });
   }
 
   getUserProfile() {
+    
+    this.user = null;
+    this.errorCode = null;
 
+    this.userService.getUserProfile(this.userId,
+      (user) => {
+        this.user = user;
+        console.log(user);
+      },
+      (error: HttpErrorResponse) => {
+        this.errorCode = error.status;
+      });
   }
 
+  updateUserProfile() {
+    
+    this.errorCode = null;
+
+    this.userService.updateUserProfile(this.user,
+      (user) => {
+        this.user = user;
+        console.log(user);
+      },
+      (error: HttpErrorResponse) => {
+        this.errorCode = error.status;
+      });
+  }
 }
