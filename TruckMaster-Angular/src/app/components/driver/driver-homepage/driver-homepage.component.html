@@ -1,0 +1,10 @@
+<div class = "center-text container rounded bg-danger">
+  <div class = "p-2">
+    <nav class = "navbar navbar-expand-lg text-white">
+      <button class = "btn btn-link text-white" routerLink = "profile" [disabled] = "isPending">Edit Profile</button>
+      <button class = "btn btn-link text-white" routerLink = "routes" [disabled] = "isPending">View Routes</button>
+    </nav>
+    <hr>
+    <router-outlet></router-outlet>
+  </div>
+</div>

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreateManagerComponent } from './create-manager.component';
+import { AdminViewDriversComponent } from './admin-view-drivers.component';
 
-describe('CreateManagerComponent', () => {
-  let component: CreateManagerComponent;
-  let fixture: ComponentFixture<CreateManagerComponent>;
+describe('AdminViewDriversComponent', () => {
+  let component: AdminViewDriversComponent;
+  let fixture: ComponentFixture<AdminViewDriversComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CreateManagerComponent ]
+      declarations: [ AdminViewDriversComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CreateManagerComponent);
+    fixture = TestBed.createComponent(AdminViewDriversComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
