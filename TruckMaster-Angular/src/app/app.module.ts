@@ -6,13 +6,23 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HttpClientModule } from '@angular/common/http';
-import { ProfileUserComponent } from './components/profile-user/profile-user.component';
+import { LoginComponent } from './components/login/login.component';
+import { AdminHomepageComponent } from './components/admin-homepage/admin-homepage.component';
+import { ManagerHomepageComponent } from './components/manager-homepage/manager-homepage.component';
+import { DriverHomepageComponent } from './components/driver-homepage/driver-homepage.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { CreateManagerComponent } from './components/create-manager/create-manager.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    ProfileUserComponent,
+    LoginComponent,
+    AdminHomepageComponent,
+    ManagerHomepageComponent,
+    DriverHomepageComponent,
+    ProfileComponent,
+    CreateManagerComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,12 @@
+<div class = "container bg-danger rounded">
+  <br>
+  <form>
+    <label>Username:</label>
+    <input type = "text" [(ngModel)] = "username" name = "username" [disabled] = "isPending">
+    <label>Password:</label>
+    <input type = "password" [(ngModel)] = "password" name = "password" [disabled] = "isPending">
+    <button class = "pl-3 pr-3 btn btn-light float-right" (click) = "login()" [disabled] = "isPending">Login</button>
+  </form>
+  <p *ngIf = "authToken">{{authToken}}</p>
+  <br>
+</div>

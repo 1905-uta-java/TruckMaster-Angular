@@ -42,7 +42,7 @@ export class NavbarComponent implements OnInit {
         this.errorCode = error.status;
       });
   }
-
+  
   addNode() {
     this.route.nodes.push({
       id: 0,

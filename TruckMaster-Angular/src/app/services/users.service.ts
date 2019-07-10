@@ -15,7 +15,7 @@ export class UsersService {
   getUserProfile(id: number, onSuccess: (user : User) => void, onFailure: (any) => void) {
     this.pendingService.pendingEvent.emit(true); //other processes must wait until service returns success or failure
 
-    this.http.get<User>(environment.serverUrl + this.uri + "/" + id) //putting in id in the full url path
+    this.http.get<User>(environment.serverUrl + this.uri + "/userid-" + id) //putting in id in the full url path
       .toPromise()
       .then((user) => {
         this.pendingService.pendingEvent.emit(false); //no longer waiting, bc a response has been received
@@ -30,7 +30,7 @@ export class UsersService {
   updateUserProfile(user: User, onSuccess: (user : User) => void, onFailure: (any) => void) {
     this.pendingService.pendingEvent.emit(true); //other processes must wait until service returns success or failure
 
-    this.http.put<User>(environment.serverUrl + this.uri + "/" + user.id,
+    this.http.put<User>(environment.serverUrl + this.uri + "/userid-" + user.id,
       user,
       {
         headers: new HttpHeaders().set("Content-Type", "application/json")
