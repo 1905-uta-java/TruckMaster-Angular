@@ -42,7 +42,7 @@ export class NavbarComponent implements OnInit {
         this.errorCode = error.status;
       });
   }
-
+  
   addNode() {
     this.route.nodes.push({
       id: 0,
@@ -65,7 +65,7 @@ export class NavbarComponent implements OnInit {
       (error: HttpErrorResponse) => {
         this.errorCode = error.status;
       }
-    )
+    );
   }
 
   deleteRoute() {

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { PendingService } from './pending.service';
 import { Route } from '../models/Route';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +21,12 @@ export class RouteService {
 
     this.pendingService.pendingEvent.emit(true);
 
-    this.http.get<Route>(environment.serverUrl + this.uri + "/" + id)
+    this.http.get<Route>(
+      environment.serverUrl + this.uri + "/" + id,
+      {
+        headers: new HttpHeaders()
+          .set("token", sessionStorage.getItem("authToken"))
+      })
       .toPromise()
       .then((route) => {
         this.pendingService.pendingEvent.emit(false);
@@ -32,7 +37,7 @@ export class RouteService {
         onFailure(error);
       });
   }
-
+  
   updateRoute(route: Route, onSuccess: (route: Route) => void, onFailure: (any) => void) {
 
     this.pendingService.pendingEvent.emit(true);
@@ -40,7 +45,9 @@ export class RouteService {
     this.http.put<Route>(environment.serverUrl + this.uri,
       route,
       {
-        headers: new HttpHeaders().set("Content-Type", "application/json")  
+        headers: new HttpHeaders()
+          .set("Content-Type", "application/json")
+          .set("token", sessionStorage.getItem("authToken"))
       })
       .toPromise()
         .then((route) => {
@@ -56,11 +63,13 @@ export class RouteService {
   createRoute(route: Route, onSuccess: (route: Route) => void, onFailure: (any) => void) {
     
     this.pendingService.pendingEvent.emit(true);
-
+    
     this.http.post<Route>(environment.serverUrl + this.uri,
       route,
       {
-        headers: new HttpHeaders().set("Content-Type", "application/json")  
+        headers: new HttpHeaders()
+          .set("Content-Type", "application/json")
+          .set("token", sessionStorage.getItem("authToken"))  
       })
       .toPromise()
         .then((route) => {
@@ -77,7 +86,12 @@ export class RouteService {
     
     this.pendingService.pendingEvent.emit(true);
 
-    this.http.delete<Route>(environment.serverUrl + this.uri + "/" + routeId)
+    this.http.delete<Route>(
+      environment.serverUrl + this.uri + "/" + routeId,
+      {
+        headers: new HttpHeaders()
+          .set("token", sessionStorage.getItem("authToken"))  
+      })
       .toPromise()
         .then((route) => {
           this.pendingService.pendingEvent.emit(false);

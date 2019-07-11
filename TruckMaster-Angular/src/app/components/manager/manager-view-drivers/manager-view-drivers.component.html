@@ -1,0 +1,36 @@
+<table class = "table table-responsive">
+  <thead class="thead-dark">
+    <tr>
+      <th>Username</th>
+      <th>Email Address</th>
+      <th>Phone Number</th>
+    </tr>
+  </thead>
+  <tr *ngFor = "let driver of cache.drivers" class = "table-dark text-dark">
+    <td>{{driver.username}}</td>
+    <td>{{driver.email}}</td>
+    <td>{{driver.phone}}</td>
+  </tr>
+</table>
+<p class = "text-white" *ngIf = "!cache || !cache.drivers || cache.drivers.length === 0">No Drivers to show</p>
+<p class = "text-danger bg-white" *ngIf = "errorMessage">{{errorMessage}}</p>
+<button class = "pl-3 pr-3 btn btn-light" (click) = "createNewDriver()" [disabled] = "isPending || newDriver">New Driver Account</button>
+<div *ngIf = newDriver>
+  <label class = "text-white">Username: </label>
+  <input type = "text" [(ngModel)] = "newDriver.username" name = "username" [ngClass] = "isUsernameValid() ? '' : 'text-danger'" [disabled] = "isPending">
+  <br>
+  <label class = "text-white">Password: </label>
+  <input type = "password" [(ngModel)] = "newPassword" name = "password" [ngClass] = "isPasswordValid() ? '' : 'text-danger'" [disabled] = "isPending">
+  <br>
+  <label class = "text-white">Confirm Password: </label>
+  <input type = "password" [(ngModel)] = "newPasswordConfirm" name = "passwordConfirm" [ngClass] = "isPasswordValid() ? '' : 'text-danger'" [disabled] = "isPending">
+  <br>
+  <label class = "text-white">Email: </label>
+  <input type = "email" [(ngModel)] = "newDriver.email" name = "email" [ngClass] = "isEmailValid() ? '' : 'text-danger'" [disabled] = "isPending">
+  <br>
+  <label class = "text-white">Phone: </label>
+  <input type = "text" [(ngModel)] = "newDriver.phone" name = "phone" [ngClass] = "isPhoneValid() ? '' : 'text-danger'" [disabled] = "isPending">
+  <br>
+  <button class = "pl-3 pr-3 btn btn-light" (click) = "submitNewDriver()" [disabled] = "isPending || !isNewDriverValid()">Submit</button>
+  <button class = "pl-3 pr-3 btn btn-light" (click) = "cancelNewDriver()" [disabled] = "isPending">Cancel</button>
+</div>
