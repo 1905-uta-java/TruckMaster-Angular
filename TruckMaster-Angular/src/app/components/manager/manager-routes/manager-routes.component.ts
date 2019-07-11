@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { RouteService } from 'src/app/services/route.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Route } from 'src/app/models/Route';
 
 @Component({
   selector: 'app-manager-routes',
@@ -7,9 +10,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ManagerRoutesComponent implements OnInit {
 
-  constructor() { }
+  constructor(private rService: RouteService) { }
 
   ngOnInit() {
   }
 
+  getRoutes() {
+
+    this.rService.getRoutesForManager(
+      (routes: Route[]) => {
+        console.log(routes);
+      },
+      (error: HttpErrorResponse) => {
+        console.log(error);
+      }
+    );
+  }
 }

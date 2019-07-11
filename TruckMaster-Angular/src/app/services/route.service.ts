@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { PendingService } from './pending.service';
 import { Route } from '../models/Route';
 import { environment } from 'src/environments/environment';
+import { CacheService } from './cache.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,10 +13,13 @@ import { environment } from 'src/environments/environment';
 // waiting for a response. Each accepts an onSuccess and onFailure callback
 // to handle the response
 export class RouteService {
-
+  
   uri: string = "/routes";
   
-  constructor(private http: HttpClient, private pendingService: PendingService) { }
+  constructor(
+    private http: HttpClient,
+    private pendingService: PendingService,
+    private cache: CacheService) { }
 
   getRoute(id: number, onSuccess: (route : Route) => void, onFailure: (any) => void) {
 
@@ -33,6 +37,48 @@ export class RouteService {
         onSuccess(route);
       })
       .catch((error) => {
+        this.pendingService.pendingEvent.emit(false);
+        onFailure(error);
+      });
+  }
+  
+  getRoutesForDriver(onSuccess: (routes : Route[]) => void, onFailure: (error: HttpErrorResponse) => void) {
+
+    this.pendingService.pendingEvent.emit(true);
+
+    this.http.get<Route[]>(
+      environment.serverUrl + this.uri + "/get-routes-driver-" + this.cache.authedUser.id,
+      {
+        headers: new HttpHeaders()
+          .set("token", sessionStorage.getItem("authToken"))
+      })
+      .toPromise()
+      .then((routes: Route[]) => {
+        this.pendingService.pendingEvent.emit(false);
+        onSuccess(routes);
+      })
+      .catch((error: HttpErrorResponse) => {
+        this.pendingService.pendingEvent.emit(false);
+        onFailure(error);
+      });
+  }
+
+  getRoutesForManager(onSuccess: (routes : Route[]) => void, onFailure: (error: HttpErrorResponse) => void) {
+
+    this.pendingService.pendingEvent.emit(true);
+
+    this.http.get<Route[]>(
+      environment.serverUrl + this.uri + "/get-all-routes+managerid-" + this.cache.authedUser.id,
+      {
+        headers: new HttpHeaders()
+          .set("token", sessionStorage.getItem("authToken"))
+      })
+      .toPromise()
+      .then((routes: Route[]) => {
+        this.pendingService.pendingEvent.emit(false);
+        onSuccess(routes);
+      })
+      .catch((error: HttpErrorResponse) => {
         this.pendingService.pendingEvent.emit(false);
         onFailure(error);
       });

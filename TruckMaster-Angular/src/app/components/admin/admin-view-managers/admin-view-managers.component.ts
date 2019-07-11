@@ -81,7 +81,7 @@ export class AdminViewManagersComponent implements OnInit {
 
     return Boolean(result && result.indexOf(this.newManager.phone) > -1)
   }
-
+  
   isNewManagerValid() {
     return this.isUsernameValid()
       && this.isPasswordValid()
