@@ -34,7 +34,7 @@ export class AppComponent implements OnInit  {
   }
   
   logout() {
-    this.cache.authedUser = null;
+    this.cache.clear();
     sessionStorage.clear();
     this.router.navigate(['login']);
   }

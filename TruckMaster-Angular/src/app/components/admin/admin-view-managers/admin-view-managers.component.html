@@ -1,3 +1,27 @@
-<p>
-  admin-view-managers works!
-</p>
+<div>
+  <br>
+  <p class = "text-white">TODO: display list of all managers here</p>
+  <br>
+</div>
+<br>
+<button class = "pl-3 pr-3 btn btn-light" (click) = "createNewManager()" [disabled] = "isPending || newManager">Create new Manager</button>
+<div *ngIf = newManager>
+  <p class = "text-danger bg-white" *ngIf = "errorCode">Error Code: {{errorCode}}</p>
+  <label class = "text-white">Username: </label>
+  <input type = "text" [(ngModel)] = "newManager.username" name = "username" [ngClass] = "isUsernameValid() ? '' : 'text-danger'" [disabled] = "isPending">
+  <br>
+  <label class = "text-white">Password: </label>
+  <input type = "password" [(ngModel)] = "newPassword" name = "password" [ngClass] = "isPasswordValid() ? '' : 'text-danger'" [disabled] = "isPending">
+  <br>
+  <label class = "text-white">Confirm Password: </label>
+  <input type = "password" [(ngModel)] = "newPasswordConfirm" name = "password" [ngClass] = "isPasswordValid() ? '' : 'text-danger'" [disabled] = "isPending">
+  <br>
+  <label class = "text-white">Email: </label>
+  <input type = "email" [(ngModel)] = "newManager.email" name = "email" [ngClass] = "isEmailValid() ? '' : 'text-danger'" [disabled] = "isPending">
+  <br>
+  <label class = "text-white">Phone: </label>
+  <input type = "text" [(ngModel)] = "newManager.phone" name = "phone" [ngClass] = "isPhoneValid() ? '' : 'text-danger'" [disabled] = "isPending">
+  <br>
+  <button class = "pl-3 pr-3 btn btn-light" (click) = "submitNewManager()" [disabled] = "isPending || !isNewManagerValid()">Submit</button>
+  <button class = "pl-3 pr-3 btn btn-light" (click) = "cancelNewManager()" [disabled] = "isPending">Cancel</button>
+</div>

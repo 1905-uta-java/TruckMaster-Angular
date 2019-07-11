@@ -1,3 +1,15 @@
-<p>
-  manager-view-drivers works!
-</p>
+<table class = "table table-responsive">
+  <thead class="thead-dark">
+    <tr>
+      <th>Username</th>
+      <th>Email Address</th>
+      <th>Phone Number</th>
+    </tr>
+  </thead>
+  <tr *ngFor = "let driver of cache.drivers" class = "table-dark text-dark">
+    <td>{{driver.username}}</td>
+    <td>{{driver.email}}</td>
+    <td>{{driver.phone}}</td>
+  </tr>
+</table>
+<p class = "text-white" *ngIf = "!cache || !cache.drivers || cache.drivers.length === 0">No Drivers to show</p>
