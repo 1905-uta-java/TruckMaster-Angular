@@ -27,7 +27,7 @@ export class ManagerService {
       {
         headers: new HttpHeaders()
           .set("Content-Type", "application/x-www-form-urlencoded")
-          .set("token", sessionStorage.getItem("authtoken"))
+          .set("token", sessionStorage.getItem("authToken"))
       }).toPromise()
         .then((manager: Manager) => {
           this.pendingService.pendingEvent.emit(false);
