@@ -35,17 +35,11 @@ export class ManagerViewDriversComponent implements OnInit {
   getDrivers() {
     this.errorCode = null;
 
-    console.log("init");
-
     if(!this.cache.drivers || this.cache.drivers.length === 0) {
-
-      console.log("sent");
 
       this.dService.getDriversForManager(
         this.cache.authedUser.id,
         (drivers: Driver[]) => {
-          console.log(drivers);
-          console.log("received");
           this.cache.drivers = drivers;
         },
         (error: HttpErrorResponse) => {

@@ -45,11 +45,7 @@ export class DriverService {
   
   getDriversForManager(managerId: number, onSuccess: (driver: Driver[]) => void, onFailure: (error: HttpErrorResponse) => void) {
 
-    console.log("Sent to: " + environment.serverUrl + this.uri + "/get-all-drivers-managerid-" + managerId );
-
     this.pendingService.pendingEvent.emit(true);
-
-    console.log("part 2");
 
     this.http.get<Driver[]>(
       environment.serverUrl + this.uri + "/get-all-drivers-managerid-" + managerId,
@@ -60,11 +56,9 @@ export class DriverService {
       .toPromise()
       .then((drivers: Driver[]) => {
         this.pendingService.pendingEvent.emit(false);
-        console.log(drivers);
         onSuccess(drivers);
       })
       .catch((error: HttpErrorResponse) => {
-        console.log(error);
         this.pendingService.pendingEvent.emit(false);
         onFailure(error);
       });
