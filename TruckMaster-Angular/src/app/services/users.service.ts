@@ -34,7 +34,7 @@ export class UsersService {
   updateUserProfile(user: User, onSuccess: (user : User) => void, onFailure: (any) => void) {
     this.pendingService.pendingEvent.emit(true); //other processes must wait until service returns success or failure
 
-    this.http.put<User>(environment.serverUrl + this.uri + "/userid-" + user.id,
+    this.http.put<User>(environment.serverUrl + this.uri,
       user,
       {
         headers: new HttpHeaders()
