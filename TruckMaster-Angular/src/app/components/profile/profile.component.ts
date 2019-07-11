@@ -1,24 +1,27 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/models/User';
 import { PendingService } from 'src/app/services/pending.service';
+import { CacheService } from 'src/app/services/cache.service';
 import { UsersService } from 'src/app/services/users.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
-  selector: 'app-profile-user',
-  templateUrl: './profile-user.component.html',
-  styleUrls: ['./profile-user.component.css']
+  selector: 'app-profile',
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.css']
 })
-export class ProfileUserComponent implements OnInit {
+export class ProfileComponent implements OnInit {
 
   isPending: boolean = false;
 
-  userId: number;
   user: User;
-  
   errorCode: number;
 
-  constructor(private pendingService: PendingService, private userService: UsersService) { }
+  constructor(
+    private pendingService: PendingService,
+    private cache: CacheService,
+    private uService: UsersService
+    ) { }
 
   ngOnInit() {
 
@@ -27,33 +30,38 @@ export class ProfileUserComponent implements OnInit {
         this.isPending = value;
       });
     });
+
+    this.user = this.cache.authedUser;
   }
 
   getUserProfile() {
-    
-    this.user = null;
+
     this.errorCode = null;
 
-    this.userService.getUserProfile(this.userId,
+    this.uService.getUserProfile(
+      this.user.id,
       (user) => {
+        
         this.user = user;
-        console.log(user);
       },
       (error: HttpErrorResponse) => {
+        
         this.errorCode = error.status;
       });
   }
 
-  updateUserProfile() {
+  updateProfile() {
     
     this.errorCode = null;
 
-    this.userService.updateUserProfile(this.user,
+    this.uService.updateUserProfile(
+      this.user,
       (user) => {
+
         this.user = user;
-        console.log(user);
       },
       (error: HttpErrorResponse) => {
+
         this.errorCode = error.status;
       });
   }
