@@ -46,9 +46,7 @@ export class LoginComponent implements OnInit {
       (result: AuthResult) => {
 
         this.cache.authedUser = result.user;
-        console.log(result.user);
         sessionStorage.setItem("authToken", result.token);
-        console.log(result.token);
 
         if(this.cache.authedUser.userType === "ADMIN") {
           this.router.navigate(["admin-homepage"]);

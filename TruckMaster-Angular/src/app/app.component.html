@@ -1,6 +1,6 @@
-<div class = "container bg-light-blue rounded">
-  <button class = "btn btn-light float right mt-2 mr-2" *ngIf = "isLoggedIn()" (click) = "logout()" [disabled] = "isPending">Logout</button>
-  <h1>Truck Master Application</h1>
+<div class = "container bg-light-blue rounded mt-2">
+  <button class = "btn btn-light float-right m-3" *ngIf = "isLoggedIn()" (click) = "logout()" [disabled] = "isPending">Logout</button>
+  <h1 class = "text-white p-2">Truck Master Application</h1>
 </div>
 <hr>
 <router-outlet></router-outlet>
