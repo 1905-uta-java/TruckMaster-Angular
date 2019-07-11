@@ -19,7 +19,7 @@ export class UsersService {
       environment.serverUrl + this.uri + "/userid-" + id, //putting in id in the full url path
       {
         headers: new HttpHeaders()
-          .set("token", sessionStorage.getItem("authtoken"))
+          .set("token", sessionStorage.getItem("authToken"))
       }).toPromise()
       .then((user) => {
         this.pendingService.pendingEvent.emit(false); //no longer waiting, bc a response has been received
@@ -39,7 +39,7 @@ export class UsersService {
       {
         headers: new HttpHeaders()
           .set("Content-Type", "application/json")
-          .set("token", sessionStorage.getItem("authtoken"))
+          .set("token", sessionStorage.getItem("authToken"))
       }) //putting in id in the full url path
       .toPromise()
       .then((user) => {

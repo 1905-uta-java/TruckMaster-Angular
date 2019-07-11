@@ -34,21 +34,31 @@ export class AdminViewManagersComponent implements OnInit {
   }
 
   isUsernameValid() {
-    if(!this.newManager.username || this.newManager.username.length == 0)
+    if(!this.newManager.username)
       return false;
     
-    return true;
-    // TODO: implement some client-side validation
-    // to give the user faster feed-back on input
+    if(this.newManager.username.length < 6 || this.newManager.username.length > 32)
+      return false;
+
+    let copy = this.newManager.username.toLowerCase();
+
+    let result = copy.match("^([0-9a-z]|_)*$");
+    
+    return Boolean(result && result.indexOf(copy) > -1);
   }
 
   isPasswordValid() {
-    if(!this.newPassword || this.newPassword.length == 0)
+    if(!this.newPassword)
       return false;
+    
+    if(this.newPassword.length < 6 || this.newPassword.length > 32)
+      return false;
+    
+    let copy = this.newPassword.toLowerCase();
 
-    return this.newPassword === this.newPasswordConfirm;
-    // TODO: implement some client-side validation
-    // to give the user faster feed-back on input
+    let result = copy.match("^([a-z0-9]|_|!|\\.|\\?)*$");
+    
+    return (this.newPassword === this.newPasswordConfirm) && Boolean(result && result.indexOf(copy) > -1);
   }
 
   isEmailValid() {
@@ -58,18 +68,18 @@ export class AdminViewManagersComponent implements OnInit {
 
     let email = this.newManager.email.toLowerCase();
 
-    let result = email.match(`^[a-z0-9]+((\\-|\\.|_)?([a-z0-9]|\\d))*@[a-z0-9]+(\\.[a-z0-9]+)+$`)
+    let result = email.match(`^[a-z0-9]+((\\-|\\.|_)?([a-z0-9]|\\d))*@[a-z0-9][a-z0-9]+(\\.[a-z0-9][a-z0-9]+)+$`)
 
     return Boolean(result && result.indexOf(email) > -1);
   }
 
   isPhoneValid() {
-    if(!this.newManager.phone || this.newManager.phone.length == 0)
+    if(!this.newManager.phone)
       return false;
     
-    return true;
-    // TODO: implement some client-side validation
-    // to give the user faster feed-back on input
+    let result = this.newManager.phone.match(`((\\([0-9]{3}\\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}|[0-9]{10})`);
+
+    return Boolean(result && result.indexOf(this.newManager.phone) > -1)
   }
 
   isNewManagerValid() {

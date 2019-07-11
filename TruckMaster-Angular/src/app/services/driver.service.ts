@@ -31,7 +31,7 @@ export class DriverService {
       {
         headers: new HttpHeaders()
           .set("Content-Type", "application/x-www-form-urlencoded")
-          .set("token", sessionStorage.getItem("authtoken"))
+          .set("token", sessionStorage.getItem("authToken"))
       }).toPromise()
       .then((driver: Driver) => {
         this.pendingService.pendingEvent.emit(false);

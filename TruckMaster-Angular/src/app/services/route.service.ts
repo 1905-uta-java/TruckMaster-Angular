@@ -25,7 +25,7 @@ export class RouteService {
       environment.serverUrl + this.uri + "/" + id,
       {
         headers: new HttpHeaders()
-          .set("token", sessionStorage.getItem("authtoken"))
+          .set("token", sessionStorage.getItem("authToken"))
       })
       .toPromise()
       .then((route) => {
@@ -47,7 +47,7 @@ export class RouteService {
       {
         headers: new HttpHeaders()
           .set("Content-Type", "application/json")
-          .set("token", sessionStorage.getItem("authtoken"))
+          .set("token", sessionStorage.getItem("authToken"))
       })
       .toPromise()
         .then((route) => {
@@ -69,7 +69,7 @@ export class RouteService {
       {
         headers: new HttpHeaders()
           .set("Content-Type", "application/json")
-          .set("token", sessionStorage.getItem("authtoken"))  
+          .set("token", sessionStorage.getItem("authToken"))  
       })
       .toPromise()
         .then((route) => {
@@ -90,7 +90,7 @@ export class RouteService {
       environment.serverUrl + this.uri + "/" + routeId,
       {
         headers: new HttpHeaders()
-          .set("token", sessionStorage.getItem("authtoken"))  
+          .set("token", sessionStorage.getItem("authToken"))  
       })
       .toPromise()
         .then((route) => {
