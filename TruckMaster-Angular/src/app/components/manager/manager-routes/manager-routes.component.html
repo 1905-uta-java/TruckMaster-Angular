@@ -1,3 +1,4 @@
+<p class = "text-danger bg-white" *ngIf = "errorMessage">{{errorMessage}}</p>
 <div class = "overflow-auto p-2 bg-light-grey" *ngIf = "cache.routes && (cache.routes.length > 0) && !selectedRoute">
   <div *ngFor = "let route of cache.routes" (click) = "selectRoute(route)">
     <p>Route: {{route.id}}</p>
@@ -21,16 +22,17 @@
           <div>
             <p>ID: {{node.id}}</p>
             <div class = "form-group">
-              <label for = "location">Location:</label>
-              <input type = "text" class = "form-control" id = "location" [(ngModel)] = "node.location" name = "location" [disabled] = "isPending">
+              <label for = "{{node.id}}_location">Location:</label>
+              <input type = "text" class = "form-control" id = "{{node.id}}_location" [(ngModel)] = "node.location" name = "{{node.id}}_location" [disabled] = "isPending">
             </div>
-            <button class = "pl-3 pr-3 btn btn-light" (click) = moveNodeUp(node) *ngIf = "selectedRoute.nodes.indexOf(node) > 0">Move Up</button>
-            <button class = "pl-3 pr-3 btn btn-light" (click) = moveNodeDown(node) *ngIf = "selectedRoute.nodes.indexOf(node) < selectedRoute.nodes.length - 1">Move Down</button>
-            <button class = "pl-3 pr-3 btn btn-light" (click) = deleteNode(node) *ngIf = "selectedRoute.nodes.length > 2">Delete Node</button>
+            <button type = "button" class = "pl-3 pr-3 btn btn-light" (click) = moveNodeUp(node) *ngIf = "selectedRoute.nodes.indexOf(node) > 0">Move Up</button>
+            <button type = "button"class = "pl-3 pr-3 btn btn-light" (click) = moveNodeDown(node) *ngIf = "selectedRoute.nodes.indexOf(node) < selectedRoute.nodes.length - 1">Move Down</button>
+            <button type = "button"class = "pl-3 pr-3 btn btn-light" (click) = deleteNode(node) *ngIf = "selectedRoute.nodes.length > 2">Delete Node</button>
           </div>
         </li>
       </ul>
   </form>
   <button class = "pl-3 pr-3 btn btn-light" (click) = submit()>Submit</button>
   <button class = "pl-3 pr-3 btn btn-light" (click) = cancel()>Cancel</button>
+  <button class = "pl-3 pr-3 btn btn-light" (click) = newNode()>Add Node</button>
 </div>
