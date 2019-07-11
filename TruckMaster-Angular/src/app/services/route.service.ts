@@ -140,10 +140,13 @@ export class RouteService {
       })
       .toPromise()
         .then((route) => {
+          console.log("success?");
+          console.log(route);
           this.pendingService.pendingEvent.emit(false);
           onSuccess(route);
         })
         .catch((error) => {
+          console.log("failure: " + error);
           this.pendingService.pendingEvent.emit(false);
           onFailure(error);
         });
