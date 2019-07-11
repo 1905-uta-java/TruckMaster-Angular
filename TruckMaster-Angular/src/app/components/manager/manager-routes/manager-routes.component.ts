@@ -5,6 +5,7 @@ import { Route } from 'src/app/models/Route';
 import { CacheService } from 'src/app/services/cache.service';
 import { PendingService } from 'src/app/services/pending.service';
 import { RouteNode } from 'src/app/models/RouteNode';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-manager-routes',
@@ -22,7 +23,8 @@ export class ManagerRoutesComponent implements OnInit {
   constructor(
     private rService: RouteService,
     private cache: CacheService,
-    private pendingService: PendingService) { }
+    private pendingService: PendingService,
+    private router: Router) { }
 
   ngOnInit() {
 
@@ -55,6 +57,28 @@ export class ManagerRoutesComponent implements OnInit {
     this.selectedRouteIndex = this.cache.routes.indexOf(route);
   }
 
+  
+  newRoute() {
+    
+    this.selectedRoute = {
+      id: null,
+      description: "",
+      idealStartTime: new Date(),
+      nodes: [
+        {
+          id: null,
+          location: ""
+        },
+        {
+          id: null,
+          location: ""
+        }
+      ]
+    };
+    
+    this.selectedRouteIndex = -1;
+  }
+
   submit() {
     
     this.errorMessage = null;
@@ -68,8 +92,7 @@ export class ManagerRoutesComponent implements OnInit {
         this.selectedRoute,
         (route: Route) => {
 
-          this.cache.routes[this.selectedRouteIndex] = route;
-          this.selectedRoute = null;
+          this.closeEditRoute();
         },
         (error: HttpErrorResponse) => {
           this.errorMessage = error.message;
@@ -82,8 +105,7 @@ export class ManagerRoutesComponent implements OnInit {
         this.selectedRoute,
         (route: Route) => {
           
-          this.cache.routes.push(route);
-          this.selectedRoute = null;
+          this.closeEditRoute();
         },
         (error: HttpErrorResponse) => {
           this.errorMessage = error.message;
@@ -92,8 +114,19 @@ export class ManagerRoutesComponent implements OnInit {
     }
   }
 
-  cancel() {
-    this.selectedRoute = null;
+  deleteRoute() {
+    
+    if(this.selectedRouteIndex > -1) {
+      this.rService.deleteRoute(
+        this.selectedRoute.id,
+        (route: Route) => {
+          this.closeEditRoute();
+        },
+        (error: HttpErrorResponse) => {
+          this.errorMessage = error.message;
+        }
+      );
+    }
   }
 
   moveNodeUp(node: RouteNode) {
@@ -131,5 +164,11 @@ export class ManagerRoutesComponent implements OnInit {
       id: null,
       location: ""
     });
+  }
+
+  closeEditRoute() {
+    this.selectedRoute = null;
+    this.selectedRouteIndex = null;
+    this.getRoutes();
   }
 }
