@@ -48,42 +48,6 @@ export class ManagerRoutesComponent implements OnInit {
     
     if(!this.cache.drivers || this.cache.drivers.length === 0)
       this.getDrivers();
-
-    // this.selectedForecast = {
-    //   dt: 1562900400,
-    //   main: {
-    //     temp: 289.58,
-    //     temp_min: 289.58,
-    //     temp_max: 289.604,
-    //     pressure: 1012.43,
-    //     sea_level: 1012.43,
-    //     grnd_level: 1007.52,
-    //     humidity: 82,
-    //     temp_kf: -0.02
-    //   },
-    //   weather: [
-    //     {
-    //       id: 500,
-    //       main: "Rain",
-    //       description: "light rain",
-    //       icon: "10n"
-    //     }
-    //   ],
-    //   clouds: {
-    //     all: 75
-    //   },
-    //   wind: {
-    //     speed: 2.93,
-    //     deg: 279.992
-    //   },
-    //   rain: {
-    //     "3h": 0.062
-    //   },
-    //   sys: {
-    //     pod: "n"
-    //   },
-    //   dt_txt: "2019-07-12 03:00:00"
-    // };
   }
 
   getRoutes() {
@@ -118,10 +82,18 @@ export class ManagerRoutesComponent implements OnInit {
   selectRoute(route: Route) {
     this.selectedRoute = route;
     this.selectedRouteIndex = this.cache.routes.indexOf(route);
+    this.dService.getDriverForRoute(
+      route,
+      (driver: Driver) => {
+        this.assignedDriverId = driver.id;
+      },
+      (error: HttpErrorResponse) => {
+        this.assignedDriverId = null;
+      }
+    )
     this.getForecast(this.selectedRoute.nodes[0]);
   }
 
-  
   newRoute() {
     
     this.selectedRoute = {

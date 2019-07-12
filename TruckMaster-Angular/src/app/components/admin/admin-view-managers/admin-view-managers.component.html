@@ -1,9 +1,3 @@
-<div>
-  <br>
-  <p class = "text-white">TODO: display list of all managers here</p>
-  <br>
-</div>
-<br>
 <button class = "pl-3 pr-3 btn btn-light" (click) = "createNewManager()" [disabled] = "isPending || newManager">Create new Manager</button>
 <div *ngIf = newManager>
   <p class = "text-danger bg-white" *ngIf = "errorCode">Error Code: {{errorCode}}</p>
