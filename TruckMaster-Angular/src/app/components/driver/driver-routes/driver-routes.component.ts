@@ -6,6 +6,8 @@ import { CacheService } from 'src/app/services/cache.service';
 import { PendingService } from 'src/app/services/pending.service';
 import { WeatherService } from 'src/app/services/weather.service';
 import { RouteNode } from 'src/app/models/RouteNode';
+import { DriverService } from 'src/app/services/driver.service';
+import { Driver } from 'src/app/models/Driver';
 
 @Component({
   selector: 'app-driver-routes',
@@ -27,7 +29,8 @@ export class DriverRoutesComponent implements OnInit {
     private rService: RouteService,
     private cache: CacheService,
     private pendingService: PendingService,
-    private weatherService: WeatherService) { }
+    private weatherService: WeatherService,
+    private dService: DriverService) { }
 
   ngOnInit() {
 
@@ -99,5 +102,11 @@ export class DriverRoutesComponent implements OnInit {
           ]
         }
       });
+  }
+
+  selectRoute(route: Route) {
+    this.selectedRoute = route;
+    this.selectedRouteIndex = this.cache.routes.indexOf(route);
+    this.getForecast(this.selectedRoute.nodes[0]);
   }
 }
