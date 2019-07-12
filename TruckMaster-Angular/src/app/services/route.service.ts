@@ -4,6 +4,8 @@ import { PendingService } from './pending.service';
 import { Route } from '../models/Route';
 import { environment } from 'src/environments/environment';
 import { CacheService } from './cache.service';
+import { Driver } from '../models/Driver';
+
 
 @Injectable({
   providedIn: 'root'
@@ -150,5 +152,28 @@ export class RouteService {
           this.pendingService.pendingEvent.emit(false);
           onFailure(error);
         });
+  }
+
+  assignDriverToRoute(driverId: number, route: Route,
+    onSuccess: (route: Route) => void,
+    onFailure: (error: HttpErrorResponse) => void
+    ) {
+
+      this.http.put<Route>(environment.serverUrl + this.uri + "/assign/" + driverId,
+        route,
+        {
+          headers: new HttpHeaders()
+            .set("Content-Type", "application/json")
+            .set("token", sessionStorage.getItem("authToken"))
+        })
+        .toPromise()
+          .then((route) => {
+            this.pendingService.pendingEvent.emit(false);
+            onSuccess(route);
+          })
+          .catch((error) => {
+            this.pendingService.pendingEvent.emit(false);
+            onFailure(error);
+          });
   }
 }

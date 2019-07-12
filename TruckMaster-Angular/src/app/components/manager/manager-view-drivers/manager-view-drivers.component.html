@@ -1,12 +1,14 @@
 <table class = "table table-responsive">
   <thead class="thead-dark">
     <tr>
+      <th>DriverID</th>
       <th>Username</th>
       <th>Email Address</th>
       <th>Phone Number</th>
     </tr>
   </thead>
   <tr *ngFor = "let driver of cache.drivers" class = "table-dark text-dark">
+    <td>{{driver.id}}</td>
     <td>{{driver.username}}</td>
     <td>{{driver.email}}</td>
     <td>{{driver.phone}}</td>
