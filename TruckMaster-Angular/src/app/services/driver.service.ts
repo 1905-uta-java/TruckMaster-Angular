@@ -4,6 +4,8 @@ import { HttpErrorResponse, HttpParams, HttpHeaders, HttpClient } from '@angular
 import { environment } from 'src/environments/environment';
 import { Driver } from '../models/Driver';
 import { CacheService } from './cache.service';
+import { routerNgProbeToken } from '@angular/router/src/router_module';
+import { Route } from '../models/Route';
 
 @Injectable({
   providedIn: 'root'
@@ -57,6 +59,27 @@ export class DriverService {
       .then((drivers: Driver[]) => {
         this.pendingService.pendingEvent.emit(false);
         onSuccess(drivers);
+      })
+      .catch((error: HttpErrorResponse) => {
+        this.pendingService.pendingEvent.emit(false);
+        onFailure(error);
+      });
+  }
+
+  getDriverForRoute(route: Route, onSuccess: (driver: Driver) => void, onFailure: (error: HttpErrorResponse) => void) {
+
+    this.pendingService.pendingEvent.emit(true);
+
+    this.http.get<Driver>(
+      environment.serverUrl + this.uri + "/get-driver-routeid-" + route.id,
+      {
+        headers: new HttpHeaders()
+          .set("token", sessionStorage.getItem("authToken"))
+      })
+      .toPromise()
+      .then((driver: Driver) => {
+        this.pendingService.pendingEvent.emit(false);
+        onSuccess(driver);
       })
       .catch((error: HttpErrorResponse) => {
         this.pendingService.pendingEvent.emit(false);

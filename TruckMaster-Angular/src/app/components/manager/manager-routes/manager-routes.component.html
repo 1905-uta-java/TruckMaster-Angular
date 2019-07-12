@@ -15,9 +15,14 @@
         <input type = "text" class = "form-control" id = "description" [(ngModel)] = "selectedRoute.description" name = "description" [disabled] = "isPending">
       </div>
       <div class = "form-group">
-        <label for = "startTime">Start Time:</label>
-        <input type = "text" class = "form-control" id = "startTime" [(ngModel)] = "selectedRoute.idealStartTime" name = "startTime" [disabled] = "isPending">
+        <label for = "startTime">Start Time: {{selectedRoute.idealStartTime | date:'full'}}</label>
+        <input type = "datetime-local" [value] = "selectedRoute.idealStartTime" class = "form-control" id = "startTime" [(ngModel)] = "selectedRoute.idealStartTime" name = "startTime" [disabled] = "isPending">
       </div>
+      <div class = "form-group">
+        <label for = "driverID">Driver ID:</label>
+        <input type = "number" class = "form-control" id = "driverID" [(ngModel)] = "assignedDriverId" name = "driverID" [disabled] = "isPending">
+      </div>
+      <hr>
       <ul>
         <li *ngFor = "let node of selectedRoute.nodes">
           <div>
@@ -30,6 +35,7 @@
             <button type = "button"class = "pl-3 pr-3 btn btn-light" (click) = moveNodeDown(node) *ngIf = "selectedRoute.nodes.indexOf(node) < selectedRoute.nodes.length - 1">Move Down</button>
             <button type = "button"class = "pl-3 pr-3 btn btn-light" (click) = deleteNode(node) *ngIf = "selectedRoute.nodes.length > 2">Delete Node</button>
           </div>
+          <hr>
         </li>
       </ul>
   </form>
@@ -37,4 +43,18 @@
   <button class = "pl-3 pr-3 btn btn-light" (click) = submit() [disabled] = "isPending">Submit</button>
   <button class = "pl-3 pr-3 btn btn-light" (click) = closeEditRoute() [disabled] = "isPending">Cancel</button>
   <button class = "pl-3 pr-3 btn btn-light" (click) = newNode() [disabled] = "isPending">Add Node</button>
+  <hr>
+  <h2>Forecasts</h2>
+  <span>
+    <button class = "pl-3 pr-3 btn btn-light" (click) = "getPrevForecast()" *ngIf = "selectedNodeIndex !== 0" [disabled] = "isPending">Prev</button>
+    <button class = "pl-3 pr-3 btn btn-light" (click) = "getNextForecast()" *ngIf = "selectedNodeIndex !== (selectedRoute.nodes.length - 1)" [disabled] = "isPending">Next</button>
+  </span>
+  <hr>
+  <div class = "bg-white rounded text-center" *ngIf = "selectedForecast">
+    <h2>{{selectedRoute.nodes[selectedNodeIndex].location}}</h2>
+    <h3>{{selectedForecast.weather[0].main}}</h3>
+    <img src = "http://openweathermap.org/img/wn/{{selectedForecast.weather[0].icon}}@2x.png"/>
+    <p>{{selectedForecast.main.temp}}</p>
+    <p>{{selectedForecast.main.temp_min}} - {{selectedForecast.main.temp_max}}</p>
+  </div>
 </div>
